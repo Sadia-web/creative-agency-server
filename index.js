@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const orderCollection = client.db("creativeAgencyTeam").collection("orders");
+  const servicesCollection = client.db("creativeAgencyTeam").collection("services");
   console.log('Database connected');
 
 
@@ -40,7 +41,7 @@ client.connect(err => {
         })
 })
 
-// insert review info to database
+// insert review into database
 app.post('/addReview', (req, res) => {
     const review = req.body;
     console.log(review);
