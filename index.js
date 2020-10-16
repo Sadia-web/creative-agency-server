@@ -28,7 +28,10 @@ app.get('/', (req, res) => {
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const orderCollection = client.db("creativeAgencyTeam").collection("orders");
+  const reviewCollection = client.db("creativeAgencyTeam").collection("reviews");
+
   const servicesCollection = client.db("creativeAgencyTeam").collection("services");
+  const adminCollection = client.db("creativeAgencyTeam").collection("adminEmail");
   console.log('Database connected');
 
 
@@ -41,7 +44,15 @@ client.connect(err => {
         })
 })
 
-// insert review into database
+
+app.get('/allOrders', (req, res) => {
+    orderCollection.find({})
+        .toArray((err, documents) => {
+            res.send(documents)
+        })
+})
+
+
 app.post('/addReview', (req, res) => {
     const review = req.body;
     console.log(review);
@@ -73,6 +84,22 @@ app.get('/getServices', (req, res) => {
     .toArray((err, documents) => {
         res.send(documents)
     })
+})
+
+app.post('/adminEmail', (req, res) => {
+    const email = req.body;
+    adminCollection.insertOne(email)
+        .then((result) => {
+            res.send(result.insertedCount > 0)
+        })
+})
+
+app.post('/isAdmin', (req, res) => {
+    const email = req.body.email;
+    adminCollection.find({ email: email })
+        .toArray((err, adminEmail) => {
+            res.send(adminEmail.length > 0)
+        })
 })
 
 
