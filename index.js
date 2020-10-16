@@ -6,23 +6,11 @@ require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bmdyz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-
-
 const port = 5000
-
-
-
 const app = express()
 
 app.use(bodyParser.json());
 app.use(cors());
-
-
-
-
-
-
-
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     const orderCollection = client.db("creativeAgencyTeam").collection("orders");
@@ -49,8 +37,6 @@ client.connect(err => {
                 res.send(documents)
             })
     })
-
-
     app.post('/addReview', (req, res) => {
         const review = req.body;
         console.log(review);
