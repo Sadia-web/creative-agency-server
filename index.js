@@ -63,7 +63,7 @@ app.post('/addReview', (req, res) => {
 })
 
 app.get('/reviews', (req, res) => {
-    reviewCollection.find({}).sort({ _id: -1 }).limit(3)
+    reviewCollection.find({})
         .toArray((err, documents) => {
             res.send(documents);
         })
